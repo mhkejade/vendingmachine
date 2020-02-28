@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,6 +14,8 @@ namespace VendingMachine
             public decimal Price { get; set; }
         }
 
+        private List<decimal> _validAmounts { get; }
+
         private List<Product> _productList { get; set; }
 
         public VendingMachine()
@@ -27,33 +29,39 @@ namespace VendingMachine
                 new Product{ProductName = "ChocolateBar", Price = 20.25M },
                 new Product{ProductName = "ChewingGum", Price = 10.50M },
                 new Product{ProductName = "BottledWater", Price = 15.0M  }
-            };   
+            };
+
+            _validAmounts = new List<decimal> {100,50,20,10,5,1,0.5M,0.25M};
         }
                
         public  void InsertAmount(decimal amount)
         {
             //1. Accepts bills of 100,50 & 20 then coins of 10,5,1,50 & 25 Cents
-            if (
-                amount == 100.0M ||
-                amount == 50.0M ||
-                amount == 20.0M ||
-                amount == 5.0M ||
-                amount == 1.0M ||
-                amount == 0.50M ||
-                amount == 0.25M
-                )
+            if (isValidAmount(amount))
             {
                 _currentbalance += amount;
             }
             else
             {
-                throw new InvalidOperationException("Invalid Amount");
-            }
-            
+                throw new InvalidOperationException("Invalid Amount");                
+            }            
         }
+
+
         public  string GetSelectedProduct()
         {
             return _selectedProduct;
+        }
+
+        public bool isValidAmount(decimal amount)
+        {
+            foreach(var _amount in _validAmounts)
+            {
+                if (_amount == amount)
+                    return true;
+            }
+
+            return false;
         }
 
         public void SelectProduct(string productname)
@@ -64,7 +72,7 @@ namespace VendingMachine
             }
             else
             {
-                throw new InvalidOperationException("Invalid ProductName");
+                throw new InvalidOperationException("Invalid Product Name");
             }
         }
         
@@ -86,7 +94,7 @@ namespace VendingMachine
 
                 if(price > _currentbalance)
                 {
-                    throw new InvalidOperationException("Insufficient Balance");
+                    throw new InvalidOperationException("Insufficient Amount Inserted");
                 }
                 else
                 {
@@ -97,7 +105,7 @@ namespace VendingMachine
             }
             else
             {
-                throw new InvalidOperationException("Invalid ProductName");
+                throw new InvalidOperationException("Invalid Product Name");
             }
         }
     }
