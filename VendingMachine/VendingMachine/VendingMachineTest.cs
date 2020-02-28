@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using NUnit.Framework;
 
 namespace VendingMachine
@@ -50,9 +50,7 @@ namespace VendingMachine
         {
             var vendingmachine = new VendingMachine();
 
-            vendingmachine.InsertAmount(expected);
-
-            Assert.AreEqual(expected, vendingmachine.GetCurrentBalance());
+            Assert.IsTrue(vendingmachine.isValidAmount(expected));
 
         }
 
@@ -140,7 +138,7 @@ namespace VendingMachine
 
         // 4. Return selected product and remaining change if any
         [TestCase("Coke", 100, 75)]
-        [TestCase("Pepsi", 50)]
+        [TestCase("Pepsi", 50, 15)]
         public void WhenUserBuysSelectedProduct_IfAmountInsertedIsSufficient_ThenProvideChangeIfAny(string productname, decimal amount, decimal change)
         {
             var vendingmachine = new VendingMachine();
@@ -184,7 +182,7 @@ namespace VendingMachine
 
         //5. Return message if inserted money is insufficient to the selected product
         [TestCase("Coke", 10, 1)]
-        [TestCase("Pepsi", 5, 2)]
+        [TestCase("Pepsi", 5, 5)]
         public void WhenUserBuysSelectedProduct_IfMultipleAmountInsertIsInsufficient_ThenReturnException(string productname, decimal amount1, decimal amount2)
         {
             var vendingmachine = new VendingMachine();
