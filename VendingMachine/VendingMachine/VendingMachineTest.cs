@@ -84,6 +84,18 @@ namespace VendingMachine
 
             Assert.AreEqual(expected, vendingmachine.GetSelectedProduct());
         }
+        
+        //3. Allow user to take refund by canceling the request. 
+        [TestCase(150, 100, 50)]
+        public void WhenUserCancel_ThenReturnTotalAmountInserted(decimal expected, decimal amount1, decimal amount2)
+        {
+            var vendingmachine = new VendingMachine();
+
+            vendingmachine.InsertAmount(amount1);
+            vendingmachine.InsertAmount(amount2);
+
+            Assert.AreEqual(expected, vendingmachine.GetCurrentBalance());
+        }
 
 
         //3. Allow user to take refund by canceling the request. 
